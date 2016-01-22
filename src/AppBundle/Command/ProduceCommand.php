@@ -2,7 +2,7 @@
 
 namespace AppBundle\Command;
 
-use Infrastructure\RabbitMq\HelloProducer;
+use Infrastructure\RabbitMq\Producer\HelloProducer;
 use Queue\HelloMessage;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
