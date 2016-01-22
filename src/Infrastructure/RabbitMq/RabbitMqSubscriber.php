@@ -17,20 +17,25 @@ class RabbitMqSubscriber
      */
     protected $channel;
 
+    /**
+     * @var string
+     */
     protected $queueName;
 
+    /**
+     * @var string
+     */
     protected $exchangeName;
 
-    public function __construct($exchangeName = 'logs')
+    public function __construct($queueName, $exchangeName = 'logs')
     {
         $this->connection = new AMQPStreamConnection('localhost', 5672, 'admin', 'password');
         $this->channel = $this->connection->channel();
         $this->exchangeName = $exchangeName;
+        $this->queueName = $queueName;
 
         $this->channel->exchange_declare($exchangeName, 'fanout', false, false, false);
-
-        list($queueName, ,) = $this->channel->queue_declare($this->queueName, false, false, true, false);
-        $this->queueName = $queueName;
+        $this->channel->queue_declare($this->queueName, false, true, false, false);
         $this->channel->queue_bind($this->queueName, $this->exchangeName);
     }
 

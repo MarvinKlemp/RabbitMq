@@ -2,7 +2,13 @@
 
 namespace Queue\Consumer;
 
+use Queue\HelloMessage;
+
 interface HelloConsumerInterface
 {
-    public function consume();
+    /**
+     * @param HelloMessage $message
+     * @throws ConsumingException
+     */
+    public function consume(HelloMessage $message);
 }

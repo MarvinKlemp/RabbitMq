@@ -12,7 +12,6 @@ class HelloProducer extends RabbitMqPublisher implements HelloProducerInterface
     public function produce(HelloMessage $message)
     {
         $msg = new AMQPMessage($message->body(), ['delivery_mode' => 2]);
-
         $this->channel->basic_publish($msg, $this->exchangeName);
     }
 }
