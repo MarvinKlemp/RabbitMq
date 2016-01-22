@@ -28,6 +28,9 @@ class HelloMessageProcessor
         $this->messageTransformer = $messageTransformer;
     }
 
+    /**
+     * @param AMQPMessage $message
+     */
     public function process(AMQPMessage $message)
     {
         try {

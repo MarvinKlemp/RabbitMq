@@ -14,11 +14,12 @@ class ConsumerRunner extends RabbitMqSubscriber
 
     /**
      * @param string $queueName
+     * @param string $exchangeName
      * @param HelloMessageProcessor $processor
      */
-    public function __construct($queueName, HelloMessageProcessor $processor)
+    public function __construct($queueName, $exchangeName, HelloMessageProcessor $processor)
     {
-        parent::__construct($queueName);
+        parent::__construct($queueName, $exchangeName);
         $this->processor = $processor;
     }
 

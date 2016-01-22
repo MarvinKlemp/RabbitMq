@@ -2,6 +2,7 @@
 
 namespace AppBundle\Command;
 
+use Infrastructure\RabbitMq\MessageTransformer\HelloMessageTransformer;
 use Infrastructure\RabbitMq\Producer\HelloProducer;
 use Queue\HelloMessage;
 use Symfony\Component\Console\Command\Command;
@@ -27,9 +28,10 @@ class ProduceHelloMessagesCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $producer = new HelloProducer();
-        $count = $input->getArgument('count');
+        $transformer = new HelloMessageTransformer();
+        $producer = new HelloProducer($transformer, 'logs');
 
+        $count = $input->getArgument('count');
         for ($i = 1;$i <= $count;$i++) {
             $producer->produce(new HelloMessage($i . '/' . $count));
         }

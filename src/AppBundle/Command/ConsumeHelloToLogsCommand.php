@@ -25,7 +25,7 @@ class ConsumeHelloToLogsCommand extends Command
         $consumer = new ConsumeHelloToLogs();
         $transformer = new HelloMessageTransformer();
         $processor = new HelloMessageProcessor($consumer, $transformer);
-        $runner = new ConsumerRunner('hello_logs', $processor);
+        $runner = new ConsumerRunner('hello_logs', 'logs', $processor);
 
         $runner->run();
     }

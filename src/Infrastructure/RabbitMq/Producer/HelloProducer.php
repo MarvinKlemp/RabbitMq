@@ -14,13 +14,20 @@ class HelloProducer extends RabbitMqPublisher implements HelloProducerInterface
      */
     private $messageTransformer;
 
-    public function __construct(HelloMessageTransformer $messageTransformer)
+    /**
+     * @param HelloMessageTransformer $messageTransformer
+     * @param string $exchangeName
+     */
+    public function __construct(HelloMessageTransformer $messageTransformer, $exchangeName)
     {
         $this->messageTransformer = $messageTransformer;
 
-        parent::__construct();
+        parent::__construct($exchangeName);
     }
 
+    /**
+     * @param HelloMessage $message
+     */
     public function produce(HelloMessage $message)
     {
         $this->channel->basic_publish(

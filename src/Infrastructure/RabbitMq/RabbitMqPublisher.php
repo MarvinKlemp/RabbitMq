@@ -25,7 +25,7 @@ class RabbitMqPublisher
     /**
      * @param string $exchangeName
      */
-    public function __construct($exchangeName = 'logs')
+    public function __construct($exchangeName)
     {
         $this->connection = new AMQPStreamConnection('localhost', 5672, 'admin', 'password');
         $this->channel = $this->connection->channel();
