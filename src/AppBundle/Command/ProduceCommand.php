@@ -3,10 +3,10 @@
 namespace AppBundle\Command;
 
 use Infrastructure\RabbitMq\HelloProducer;
+use Queue\HelloMessage;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ProduceCommand extends Command
@@ -17,33 +17,21 @@ class ProduceCommand extends Command
             ->setName('queue:greet')
             ->setDescription('Greet someone far away')
             ->addArgument(
-                'name',
+                'count',
                 InputArgument::OPTIONAL,
-                'Who do you want to greet?'
-            )
-            ->addOption(
-                'yell',
-                null,
-                InputOption::VALUE_NONE,
-                'If set, the task will yell in uppercase letters'
+                'how often do you want to greet?',
+                1
             )
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $name = $input->getArgument('name');
-        if ($name) {
-            $text = 'Hello '.$name;
-        } else {
-            $text = 'Hello';
-        }
-
-        if ($input->getOption('yell')) {
-            $text = strtoupper($text);
-        }
-
         $producer = new HelloProducer();
-        $producer->produce();
+        $count = $input->getArgument('count');
+
+        for ($i = 1;$i <= $count;$i++) {
+            $producer->produce(new HelloMessage($i . '/' . $count));
+        }
     }
 }

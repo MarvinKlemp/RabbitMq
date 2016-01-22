@@ -22,7 +22,7 @@ class RabbitMqClient
     {
         $this->connection = new AMQPStreamConnection('localhost', 5672, 'admin', 'password');
         $this->channel = $this->connection->channel();
-        $this->queueName = 'testqueue';
+        $this->queueName = 'test';
     }
 
     public function __destruct()
