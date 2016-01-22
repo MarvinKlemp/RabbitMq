@@ -22,6 +22,6 @@ class HelloMessageTransformer
      */
     public function reverseTransform(HelloMessage $message)
     {
-
+        return new AMQPMessage($message->body(), ['delivery_mode' => 2]);
     }
 }

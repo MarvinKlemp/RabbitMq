@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ProduceCommand extends Command
+class ProduceHelloMessagesCommand extends Command
 {
     protected function configure()
     {
