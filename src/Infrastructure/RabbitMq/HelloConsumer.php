@@ -8,8 +8,6 @@ class HelloConsumer extends RabbitMqClient implements HelloConsumerInterface
 {
     public function consume()
     {
-        $this->channel->queue_declare($this->queueName, false, false, false, false);
-
         $callback = function($msg) {
             echo "recieved: " . $msg->body . "\n";
             $msg->delivery_info['channel']->basic_ack($msg->delivery_info['delivery_tag']);

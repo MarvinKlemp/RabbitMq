@@ -18,11 +18,12 @@ class RabbitMqClient
 
     protected $queueName;
 
-    public function __construct($queueName = null, $channel = null)
+    public function __construct($queueName = 'test', $channel = null)
     {
         $this->connection = new AMQPStreamConnection('localhost', 5672, 'admin', 'password');
         $this->channel = $this->connection->channel();
-        $this->queueName = 'test';
+        $this->queueName = $queueName;
+        $this->channel->queue_declare($this->queueName, false, true, false, false);
     }
 
     public function __destruct()
