@@ -1,11 +1,12 @@
 <?php
 
-namespace Infrastructure\RabbitMq;
+namespace Infrastructure\Queue\RabbitMq;
 
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
+use PhpAmqpLib\Message\AMQPMessage;
 
-class RabbitMqSubscriber
+class Publisher
 {
     /**
      * @var AMQPStreamConnection
@@ -20,23 +21,31 @@ class RabbitMqSubscriber
     /**
      * @var string
      */
-    protected $queueName;
+    private $queueName;
 
     /**
-     * @var string
+     * @param AMQPStreamConnection $connection
+     * @param string $queueName
      */
-    protected $exchangeName;
-
-    public function __construct($queueName, $exchangeName)
+    public function __construct(AMQPStreamConnection $connection, $queueName)
     {
-        $this->connection = new AMQPStreamConnection('localhost', 5672, 'admin', 'password');
+        $this->connection = $connection;
         $this->channel = $this->connection->channel();
-        $this->exchangeName = $exchangeName;
         $this->queueName = $queueName;
 
-        $this->channel->exchange_declare($exchangeName, 'fanout', false, false, false);
         $this->channel->queue_declare($this->queueName, false, true, false, false);
-        $this->channel->queue_bind($this->queueName, $this->exchangeName);
+    }
+
+    /**
+     * @param AMQPMessage $message
+     */
+    public function publish(AMQPMessage $message)
+    {
+        $this->channel->basic_publish(
+            $message,
+            '',
+            $this->queueName
+        );
     }
 
     public function __destruct()

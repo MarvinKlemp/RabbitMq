@@ -1,9 +1,11 @@
 <?php
 
-namespace Queue;
+namespace Infrastructure\Queue\Messages;
 
-class HelloMessage
+class RequestInfoMessage extends BaseMessage
 {
+    const TYPE = 'request_info';
+
     /**
      * @var string
      */
@@ -15,13 +17,11 @@ class HelloMessage
     public function __construct($message)
     {
         $this->message = $message;
+
+        parent::__construct(static::TYPE);
     }
 
-    /**
-     * @return string
-     */
-    public function body()
+    public function toString()
     {
-        return $this->message;
     }
 }
